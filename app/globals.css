@@ -24,3 +24,103 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+@keyframes ring {
+  0% { transform: rotate(0); }
+  10% { transform: rotate(15deg); }
+  20% { transform: rotate(-15deg); }
+  30% { transform: rotate(15deg); }
+  40% { transform: rotate(-15deg); }
+  50% { transform: rotate(0); }
+  100% { transform: rotate(0); }
+}
+
+.animate-ring {
+  animation: ring 1.5s infinite;
+}
+
+
+@keyframes ring-wiggle {
+  0% { transform: rotate(0); }
+  5% { transform: rotate(15deg); }
+  10% { transform: rotate(-15deg); }
+  15% { transform: rotate(15deg); }
+  20% { transform: rotate(-15deg); }
+  25% { transform: rotate(0); }
+  100% { transform: rotate(0); } /* Remains still from 25% to 100% */
+}
+
+.animate-ring-slow {
+  /* 3s total loop: ~0.75s shaking, 2.25s resting */
+  animation: ring-wiggle 3s infinite;
+}
+
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+.animate-typing {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #1e3a8a; /* The cursor color */
+  animation: 
+    typing 3.5s steps(30, end) infinite,
+    blink .75s step-end infinite;
+}
+
+
+
+@keyframes particle-one {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(20%, 40%); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes particle-two {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-30%, -20%); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-random-particles {
+  background-color: #f8fafc; /* Base background */
+  background-image: 
+    radial-gradient(circle at 20% 30%, #ACC8E5 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, #1e3a8a 0%, transparent 40%),
+    radial-gradient(circle at 40% 80%, #60a5fa 0%, transparent 40%),
+    radial-gradient(circle at 10% 90%, #8b84e8 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, #C5CBFF 0%, transparent 40%);
+  background-size: 200% 200%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Moving Overlay Effect */
+.animate-random-particles::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: inherit;
+  animation: particle-one 12s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+.animate-random-particles::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: inherit;
+  animation: particle-two 18s linear infinite;
+  opacity: 0.4;
+  filter: blur(20px);
+}
