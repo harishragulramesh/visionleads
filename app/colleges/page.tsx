@@ -96,7 +96,7 @@ export default function CollegesPage() {
                   {item.desc}
                 </p>
                 <div className="flex items-center text-blue-600 font-black text-xs uppercase tracking-widest gap-2">
-                  View Colleges <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                  Explore Colleges <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
                 </div>
               </div>
             </Link>

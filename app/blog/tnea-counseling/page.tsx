@@ -1,11 +1,39 @@
 "use client";
 
+import { useState } from "react";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, User, Clock, ChevronLeft, Share2, CheckCircle2, GraduationCap } from "lucide-react";
-
+import {Check } from "lucide-react";
 export default function TNEABlogPage() {
+  const [copied, setCopied] = useState(false);
+  const handleShare = async () => {
+    // 1. Check if navigator and clipboard exist to prevent the "undefined" error
+    if (typeof window !== "undefined" && navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error("Failed to copy: ", err);
+      }
+    } else {
+      // 2. Fallback: If clipboard API fails, try the older execCommand
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = window.location.href;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        alert("Please copy the URL from your browser address bar.");
+      }
+    }
+  };
   return (
     <div className="bg-white min-h-screen font-sans">
       {/* 1. Header Navigation */}
@@ -13,9 +41,18 @@ export default function TNEABlogPage() {
         <Link href="/" className="flex items-center gap-2 text-gray-500 font-bold hover:text-blue-600 transition-colors">
           <ChevronLeft size={20} /> Back to Insights
         </Link>
-        <button className="p-2 bg-gray-50 rounded-full text-gray-400 hover:text-blue-600 transition-all">
-          <Share2 size={20} />
-        </button>
+
+        <div 
+          onClick={handleShare}
+          className={`p-3 rounded-full transition-all duration-300 cursor-pointer flex items-center justify-center ${
+            copied 
+            ? "bg-green-100 text-green-600 scale-110" 
+            : "bg-gray-50 text-gray-400 hover:text-blue-600"
+          }`}
+          title={copied ? "URL Copied!" : "Copy Link"}
+        >
+          {copied ? <Check size={20} /> : <Share2 size={20} />}
+        </div>
       </nav>
 
       {/* 2. Hero Article Section */}
@@ -91,7 +128,7 @@ export default function TNEABlogPage() {
           <div className="mt-24 p-12 bg-slate-900 rounded-[4rem] text-center">
             <h3 className="text-3xl font-black text-white uppercase mb-4">Confused about your Cutoff?</h3>
             <p className="text-slate-400 font-bold mb-8">Our expert counselors help you build a personalized choice-filling list based on last year's closing ranks.</p>
-            <Link href="/signin" className="bg-blue-600 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-700 transition-all inline-block">
+            <Link href="/form" className="bg-blue-600 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-700 transition-all inline-block">
               Get Free Counseling
             </Link>
           </div>

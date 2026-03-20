@@ -1,6 +1,11 @@
+
+"use client"; // <--- Add this at the very top (Line 1)
+import { useState } from "react";
 import Link from "next/link";
+
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
-import { GraduationCap, Award, Share2 } from "lucide-react";
+import { GraduationCap, Award, Share2,Check } from "lucide-react";
+
 
 export default function Footer() {
   const quickLinks = [
@@ -14,11 +19,38 @@ export default function Footer() {
   const categories = [
     { name: "Engineering Colleges", href: "/colleges/engineering" },
     { name: "Medical Universities", href: "/colleges/medical" },
-    { name: "Arts & Science", href: "/colleges/arts-science" },
-    { name: "Management Studies", href: "/colleges/management" },
-    { name: "Law Colleges", href: "/colleges/law" },
+    { name: "Arts & Science", href: "/colleges/arts-and-science" },
+    { name: "Management Studies", href: "/updating" },
+    { name: "Law Colleges", href: "/updating" },
   ];
+  const [copied, setCopied] = useState(false);
 
+const handleShare = async () => {
+    // 1. Check if navigator and clipboard exist to prevent the "undefined" error
+    if (typeof window !== "undefined" && navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error("Failed to copy: ", err);
+      }
+    } else {
+      // 2. Fallback: If clipboard API fails, try the older execCommand
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = window.location.href;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        alert("Please copy the URL from your browser address bar.");
+      }
+    }
+  };
   return (
     <footer className="bg-white pt-16 pb-8 px-6 lg:px-16 border-t border-gray-100">
       <div className="max-w-8xl mx-auto">
@@ -80,8 +112,16 @@ export default function Footer() {
               <div className="p-3 bg-gray-50 rounded-full text-gray-400 hover:text-blue-600 transition-colors cursor-pointer">
                 <Award size={20} />
               </div>
-              <div className="p-3 bg-gray-50 rounded-full text-gray-400 hover:text-blue-600 transition-colors cursor-pointer">
-                <Share2 size={20} />
+              <div 
+                onClick={handleShare}
+                className={`p-3 rounded-full transition-all duration-300 cursor-pointer flex items-center justify-center ${
+                  copied 
+                  ? "bg-green-100 text-green-600 scale-110" 
+                  : "bg-gray-50 text-gray-400 hover:text-blue-600"
+                }`}
+                title={copied ? "URL Copied!" : "Copy Link"}
+              >
+                {copied ? <Check size={20} /> : <Share2 size={20} />}
               </div>
             </div>
           </div>

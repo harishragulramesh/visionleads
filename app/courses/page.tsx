@@ -112,7 +112,7 @@ export default function CoursesPage() {
                 </div>
 
                 <Link 
-                  href="/signup" 
+                  href="/form" 
                   className="w-full py-4 bg-gray-900 text-white group-hover:bg-blue-600 rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-95"
                 >
                   Apply Now <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />

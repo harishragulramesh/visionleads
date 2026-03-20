@@ -171,7 +171,7 @@ export default function LandingPage() {
             <path d="M0,0 C300,120 900,120 1200,0 L1200,120 L0,120 Z"></path>
           </svg>
         </div>
-        <p className="text-slate-500 text-sm">© 2026 Vision Leads. All rights reserved.</p>
+        {/* <p className="text-slate-500 text-sm">© 2026 Vision Leads. All rights reserved.</p> */}
       </footer>
     </div>
   );

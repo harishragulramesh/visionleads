@@ -93,10 +93,10 @@ export default function Home() {
   ];
 
   const faqs = [
-    { q: "HOW LONG DOES THE STUDENT VISA PROCESS USUALLY TAKE?" , a: "Yes, we guide students in identifying suitable scholarships, preparing strong applications, and increasing chances." },
-    { q: "HOW LONG DOES THE STUDENT VISA PROCESS USUALLY TAKE?", a: "Yes, we guide students in identifying suitable scholarships, preparing strong applications, and increasing chances." },
-    { q: "HOW LONG DOES THE STUDENT VISA PROCESS USUALLY TAKE?" , a: "Yes, we guide students in identifying suitable scholarships, preparing strong applications, and increasing chances." },
-    { q: "HOW LONG DOES THE STUDENT VISA PROCESS USUALLY TAKE?" , a: "Yes, we guide students in identifying suitable scholarships, preparing strong applications, and increasing chances." },
+    { q: "What is the difference between Government and Private Medical wings?" , a: "Government wings are state-run institutions with lower fees and high prestige, accessible through strict NEET cut-offs. Private wings (including Deemed Universities) offer premium infrastructure and specialized research facilities. Vision Leads helps you navigate the counseling for both sectors." },
+    { q: "How does Vision Leads help with TNEA counseling in Tamil Nadu?", a: "We provide data-driven support for the Tamil Nadu Engineering Admissions (TNEA) process. This includes analyzing your cut-off marks, helping you select the best Anna University affiliated colleges, and optimizing your choice filling to ensure you secure a seat in a premier engineering hub." },
+    { q: "Are Arts and Science colleges in Salem affiliated with Periyar University?" , a: "Yes, many of the premier Arts & Science centers we partner with are affiliated with Periyar University. We help students choose institutions that offer high-value degrees in Visual Communication, Data Science, and Commerce." },
+    { q: "Why should I choose Vision Leads instead of direct admission?" , a: "Direct admission often misses the 'Value' aspect. Vision Leads evaluates the ROI of your education, focusing on placement records, campus culture, and future-proofing your career. We don't just find you a seat; we architect your future." },
   ];
 
   const [index, setIndex] = useState(0);
@@ -220,20 +220,21 @@ const getAvatarDetails = (name: string) => {
                 className="group flex justify-center items-center gap-3 bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md active:scale-95"
                 title="Click to call or right-click to copy number"
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 ">
                   <div className="animate-ring-slow text-white">
                     <IoCall size={24} />
                   </div>
-                  <div className="font-medium">
+                  <div className="font-medium ">
                     {/* Removed the inner <a> tag here */}
                     Get Free Counseling
                   </div>
                 </div>
               </a>
-
-              <button className="bg-white text-blue-600 px-10 py-2 rounded-full font-bold shadow-lg hover:bg-blue-700 hover:text-white active:scale-95 transition-all">
-                Apply Now
-              </button>
+              <Link href="/form" className="bg-white text-blue-600 px-10 py-2 rounded-full font-bold shadow-lg hover:bg-blue-700 hover:text-white active:scale-95 transition-all">
+                <button className="bg-white text-blue-600 pt-1  hover:text-white active:scale-95 transition-all">
+                  Apply Now
+                </button>
+              </Link>
             </div>
 
         <div className="flex justify-center xl:justify-start items-center gap-4 pt-5">
@@ -379,7 +380,7 @@ const getAvatarDetails = (name: string) => {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 pt-4">
-              <Link  href="" >
+              <Link href="/form" >
               <button  className="flex items-center gap-2 bg-white border-2 border-gray-900 text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-gray-50 transition-all group">
                 GET STARTED
                 <span className="bg-gray-100 p-1 rounded-full group-hover:translate-x-1 transition-transform">
@@ -494,9 +495,11 @@ const getAvatarDetails = (name: string) => {
               <p className="text-[#1a1a1a] text-xl md:text-2xl font-extrabold mb-6 max-w-sm">
                 Get expert guidance and secure admission to the best colleges in Tamil Nadu.
               </p>
-              <button className="bg-[#7000FF] hover:bg-[#6000EE] text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl transition-all active:scale-95">
-                Book Free Counseling Now
-              </button>
+              <Link href="/form" >
+                <button className="bg-[#7000FF] hover:bg-[#6000EE] text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl transition-all active:scale-95">
+                  Book Free Counseling Now
+                </button>
+              </Link>
             </div>
           </div>
         </section>
@@ -719,9 +722,11 @@ const getAvatarDetails = (name: string) => {
               <p className="text-gray-600 font-medium mb-8 max-w-sm">
                 We understand students often have many questions about studying abroad. Our experts provide clear.
               </p>
+              <Link href="/form" >
               <button className="border-2 border-gray-900 px-8 py-2 rounded-xl font-bold hover:bg-gray-900 text-black hover:text-white transition-all">
                 Apply Now
               </button>
+              </Link>
             </div>
 
             <div className="space-y-4">
