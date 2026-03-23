@@ -10,18 +10,18 @@ import { GraduationCap, Award, Share2,Check } from "lucide-react";
 export default function Footer() {
   const quickLinks = [
     { name: "About Us", href: "/about" },
-    { name: "Our Services", href: "/services" },
-    { name: "Top Colleges", href: "/colleges" },
-    { name: "Scholarship Guidance", href: "/scholarships" },
+    { name: "Courses", href: "/courses" },
+    { name: "Careers", href: "/colleges" },
+    // { name: "Scholarship Guidance", href: "/scholarships" },
     { name: "Contact Support", href: "/contact" },
   ];
 
   const categories = [
-    { name: "Engineering Colleges", href: "/colleges/engineering" },
-    { name: "Medical Universities", href: "/colleges/medical" },
-    { name: "Arts & Science", href: "/colleges/arts-and-science" },
-    { name: "Management Studies", href: "/updating" },
-    { name: "Law Colleges", href: "/updating" },
+    { name: "B.E / B.Tech", href: "/courses/engineering" },
+    { name: "MBBS / Nursing", href: "/courses/medical" },
+    { name: "B.A / B.Sc", href: "/courses/arts-science" },
+    // { name: "Management Studies", href: "/courses/management" },
+    { name: "LL.B / LL.M", href: "/courses/law" },
   ];
   const [copied, setCopied] = useState(false);
 
@@ -142,7 +142,7 @@ const handleShare = async () => {
 
           {/* Column 3 */}
           <div>
-            <h4 className="font-black text-gray-900 mb-6">College Categories</h4>
+            <h4 className="font-black text-gray-900 mb-6">Courses Categories</h4>
             <ul className="space-y-4">
               {categories.map((cat) => (
                 <li key={cat.name}>

@@ -89,7 +89,7 @@ export default function Navbar() {
               className="object-contain" 
             />
           </div> */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Link href="/" className="flex items-center gap-2">
               {/* 2. The Text or Image Logo */}
               <Image 

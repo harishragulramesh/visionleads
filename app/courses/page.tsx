@@ -1,151 +1,220 @@
-"use client";
-
-import React, { useState } from "react";
-import { Search, Filter, BookOpen, GraduationCap, ArrowRight, Clock, Award } from "lucide-react";
 import Link from "next/link";
+import { categories } from "@/data/categories";
+import { courses } from "@/data/courses";
+import type { Metadata } from "next";
 
-// Course Data based on your College Categories
-const courses = [
-  { id: 1, title: "B.E. Computer Science", cat: "Engineering", duration: "4 Years", level: "Undergraduate", trend: "High Demand" },
-  { id: 2, title: "MBBS", cat: "Medical", duration: "5.5 Years", level: "Undergraduate", trend: "Top Rated" },
-  { id: 3, title: "B.Tech Artificial Intelligence", cat: "Engineering", duration: "4 Years", level: "Undergraduate", trend: "Emerging" },
-  { id: 4, title: "B.Sc Psychology", cat: "Arts & Science", duration: "3 Years", level: "Undergraduate", trend: "Popular" },
-  { id: 5, title: "MBA International Business", cat: "Management", duration: "2 Years", level: "Postgraduate", trend: "Corporate" },
-  { id: 6, title: "B.E. Robotics & Automation", cat: "Engineering", duration: "4 Years", level: "Undergraduate", trend: "Future Tech" },
-];
+export const metadata: Metadata = {
+  title: "All Courses — Engineering, Arts, Medical, Commerce | Vision Leads",
+  description:
+    "Explore all courses across Engineering, Arts & Science, Medical, and Commerce. Find the best career path, salary details, government jobs, and abroad opportunities — all in one place.",
+  keywords: [
+    "courses after 12th Tamil Nadu",
+    "engineering courses India",
+    "best course for future",
+    "career guidance Tamil Nadu",
+    "B.E B.Tech course list",
+    "Arts Science Medical Commerce courses",
+    "Vision Leads",
+    "course salary details",
+    "government jobs after engineering",
+  ].join(", "),
+  alternates: { canonical: "https://visionleads.in/courses" },
+  openGraph: {
+    type: "website",
+    url: "https://visionleads.in/courses",
+    title: "All Courses | Vision Leads — Career Guidance",
+    description: "Explore Engineering, Arts & Science, Medical and Commerce courses with salary, career paths and abroad opportunities.",
+    siteName: "Vision Leads",
+    locale: "en_IN",
+    images: [{ url: "https://visionleads.in/og/courses.png", width: 1200, height: 630, alt: "All Courses — Vision Leads" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "All Courses | Vision Leads",
+    description: "Find your perfect course — Engineering, Arts, Medical & Commerce with full career & salary details.",
+    images: ["https://visionleads.in/og/courses.png"],
+    site: "@visionleads",
+  },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+};
 
-const categories = ["All", "Engineering", "Medical", "Arts & Science", "Management"];
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap');`;
 
 export default function CoursesPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeCat, setActiveCat] = useState("All");
-
-  const filteredCourses = courses.filter(course => {
-    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCat = activeCat === "All" || course.cat === activeCat;
-    return matchesSearch && matchesCat;
-  });
+  const totalCourses = courses.length;
 
   return (
-    <div className="bg-white min-h-screen font-sans">
-      {/* 1. Header & Search Section */}
-      <section className="pt-20 pb-12 px-6 lg:px-24 bg-slate-50 rounded-b-[4rem]">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl font-black text-gray-900 mb-6 uppercase tracking-tighter">
-            Explore <span className="text-blue-600">Top Courses</span>
-          </h1>
-          
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto relative mb-10">
-            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400" size={24} />
-            <input 
-              type="text" 
-              placeholder="Search for B.E, MBBS, or MBA..." 
-              className="w-full pl-16 pr-6 py-3 bg-white border-none shadow-2xl rounded-3xl text-lg font-bold outline-none focus:ring-4 focus:ring-blue-100 transition-all"
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+    <main className="min-h-screen bg-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <style>{`
+        ${FONTS}
+        .cat-card { transition: all 0.28s cubic-bezier(0.4,0,0.2,1); }
+        .cat-card:hover { transform: translateY(-6px); box-shadow: 0 28px 64px -12px rgba(0,0,0,0.14); }
+        .arrow-icon { transition: transform 0.2s ease; }
+        .cat-card:hover .arrow-icon { transform: translateX(5px); }
+        .bottom-line { width:0; transition: width 0.3s ease; }
+        .cat-card:hover .bottom-line { width: 100%; }
+        .hero-blob { animation: blob 8s ease-in-out infinite; }
+        .hero-blob-2 { animation: blob 10s ease-in-out infinite reverse; }
+        @keyframes blob { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-20px) scale(1.05)} }
+      `}</style>
 
-          {/* Category Pills */}
-          <div className="flex flex-wrap justify-center gap-3">
+      {/* ── Navbar ─────────────────────────────────────────────── */}
+      {/* <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-black text-white">V</div>
+            <span className="text-base font-black text-gray-900" style={{ fontFamily: "'Fraunces', serif" }}>Vision Leads</span>
+          </Link>
+          <div className="hidden items-center gap-6 md:flex">
             {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCat(cat)}
-                className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${
-                  activeCat === cat 
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-200" 
-                  : "bg-white text-gray-400 hover:bg-gray-100 border border-gray-100"
-                }`}
-              >
-                {cat}
-              </button>
+              <Link key={cat.id} href={`/courses/${cat.slug}`} className="text-sm font-medium text-gray-500 transition-colors hover:text-gray-900">
+                {cat.shortTitle}
+              </Link>
             ))}
           </div>
+          <Link href="/courses/engineering" className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-gray-700">
+            Explore →
+          </Link>
         </div>
-      </section>
+      </nav> */}
 
-      {/* 2. Course Grid */}
-      <section className="py-20 px-6 lg:px-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <h2 className="text-3xl font-black text-gray-900 uppercase">Available Programs</h2>
-              <p className="text-gray-400 font-bold mt-2">Showing {filteredCourses.length} courses</p>
-            </div>
-            <div className="hidden md:flex items-center gap-2 text-blue-600 font-black text-xs uppercase tracking-widest cursor-pointer">
-              <Filter size={16} /> Filter Results
-            </div>
+      {/* ── Hero ───────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+        <div className="hero-blob pointer-events-none absolute -top-48 -left-48 h-[700px] w-[700px] rounded-full bg-gradient-to-br from-indigo-100 via-violet-100 to-transparent opacity-60 blur-3xl" />
+        <div className="hero-blob-2 pointer-events-none absolute -top-32 right-0 h-[500px] w-[500px] rounded-full bg-gradient-to-bl from-pink-100 via-sky-100 to-transparent opacity-50 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.035]" style={{ backgroundImage: "radial-gradient(circle, #6366f1 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+
+        <div className="relative mx-auto max-w-6xl px-6 pb-20 pt-24 text-center">
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-white px-4 py-2 shadow-md shadow-indigo-50/60">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-indigo-500" />
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-600">#1 Engineering Career Guidance</span>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredCourses.map((course) => (
-              <div 
-                key={course.id} 
-                className="group bg-white border border-gray-100 p-8 rounded-[3rem] shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-colors duration-500">
-                      <GraduationCap size={28} />
-                    </div>
-                    <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">
-                      {course.trend}
-                    </span>
-                  </div>
-                  
-                  <span className="text-blue-600 text-[10px] font-black tracking-widest uppercase block mb-2">
-                    {course.cat}
-                  </span>
-                  <h3 className="text-2xl font-black text-gray-900 mb-6 leading-tight group-hover:text-blue-600 transition-colors">
-                    {course.title}
-                  </h3>
+          <h1 className="mx-auto max-w-4xl text-5xl font-black leading-[1.08] tracking-tight text-gray-950 md:text-[64px]" style={{ fontFamily: "'Fraunces', serif" }}>
+            Your Future Starts With{" "}
+            <span className="relative whitespace-nowrap">
+              <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-sky-500 bg-clip-text text-transparent">the Right Course</span>
+              <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 400 14" fill="none">
+                <path d="M2 10 Q100 3 200 9 Q300 15 398 8" stroke="url(#ul)" strokeWidth="3.5" strokeLinecap="round" />
+                <defs>
+                  <linearGradient id="ul" x1="0" y1="0" x2="400" y2="0">
+                    <stop offset="0%" stopColor="#6366f1" /><stop offset="50%" stopColor="#7c3aed" /><stop offset="100%" stopColor="#0ea5e9" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+          </h1>
 
-                  <div className="space-y-3 mb-8">
-                    <div className="flex items-center gap-3 text-gray-500 font-bold text-sm">
-                      <Clock size={16} className="text-blue-600" /> {course.duration}
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-500 font-bold text-sm">
-                      <Award size={16} className="text-blue-600" /> {course.level}
-                    </div>
-                  </div>
-                </div>
+          <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-gray-500">
+            உங்கள் interest பார்த்து சரியான course, career, salary எல்லாம் ஒரே இடத்தில் தெரிஞ்சுக்கோ.
+          </p>
 
-                <Link 
-                  href="/form" 
-                  className="w-full py-4 bg-gray-900 text-white group-hover:bg-blue-600 rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-95"
-                >
-                  Apply Now <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
-                </Link>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/courses/engineering" className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-200 transition-all hover:opacity-95">
+              Explore Engineering
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+            </Link>
+            <Link href="/courses/arts-science" className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-7 py-3.5 text-sm font-bold text-gray-700 shadow-sm transition-all hover:shadow-md">
+              Arts & Science
+            </Link>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-14 flex flex-wrap items-center justify-center gap-10">
+            {[
+              { value: `${totalCourses}+`, label: "Courses Covered" },
+              { value: "4", label: "Stream Categories" },
+              { value: "₹1L+", label: "Top Monthly Salary" },
+              { value: "5+", label: "Abroad Countries" },
+            ].map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-3xl font-black leading-none text-gray-900" style={{ fontFamily: "'Fraunces', serif" }}>{s.value}</p>
+                <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-gray-400">{s.label}</p>
               </div>
             ))}
           </div>
-
-          {/* No Results State */}
-          {filteredCourses.length === 0 && (
-            <div className="text-center py-20">
-              <BookOpen size={64} className="mx-auto text-gray-200 mb-4" />
-              <h3 className="text-2xl font-black text-gray-900 uppercase">No courses found</h3>
-              <p className="text-gray-400 font-bold">Try adjusting your search or category filters.</p>
-            </div>
-          )}
         </div>
       </section>
 
-      {/* 3. Helper CTA */}
-      <section className="pb-24 px-6">
-        <div className="max-w-7xl mx-auto bg-slate-900 rounded-[4rem] p-12 md:p-20 text-center relative overflow-hidden">
-          <div className="relative z-10">
-            <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-tight">Can't decide the right course?</h2>
-            <p className="text-slate-400 font-bold mb-10 max-w-xl mx-auto">Get free personalized counseling from our experts to find the career path that suits your strengths.</p>
-            <Link href="tel:+919876543210" className="bg-blue-600 text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-blue-500/20 hover:bg-blue-700 transition-all inline-block">
-              Talk to an Expert
+      {/* ── Categories ─────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-6 py-20">
+        <div className="mb-12 text-center">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Browse by Stream</p>
+          <h2 className="text-4xl font-black text-gray-900" style={{ fontFamily: "'Fraunces', serif" }}>Choose Your Stream</h2>
+          <p className="mx-auto mt-3 max-w-md text-base text-gray-500">Select a category to explore all courses, careers, and salary details.</p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {categories.map((cat) => (
+            <Link
+              key={cat.id}
+              href={`/courses/${cat.slug}`}
+              className="cat-card group relative flex flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-[0_2px_20px_rgba(0,0,0,0.06)]"
+            >
+              {/* Gradient header */}
+              <div className={`relative h-40 w-full overflow-hidden bg-gradient-to-br ${cat.gradient}`}>
+                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(ellipse at 20% 60%, white 0%, transparent 55%)" }} />
+                <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "repeating-linear-gradient(45deg, white 0, white 1px, transparent 0, transparent 50%)", backgroundSize: "20px 20px" }} />
+                <span className="absolute bottom-5 left-6 text-6xl drop-shadow-sm">{cat.emoji}</span>
+                <span className="absolute right-5 top-5 rounded-full bg-black/20 px-3 py-1 text-xs font-bold text-white backdrop-blur-sm">
+                  {cat.courseIds.length > 0 ? `${cat.courseIds.length} courses` : "Coming Soon"}
+                </span>
+              </div>
+
+              {/* Body */}
+              <div className="flex flex-1 flex-col p-7">
+                <span className="mb-2 inline-block rounded-lg px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest" style={{ backgroundColor: cat.color + "15", color: cat.color }}>
+                  {cat.shortTitle}
+                </span>
+                <h3 className="mt-1 text-2xl font-black text-gray-900 transition-colors group-hover:text-indigo-700" style={{ fontFamily: "'Fraunces', serif" }}>{cat.title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-gray-500 line-clamp-2">{cat.description}</p>
+
+                <div className="mt-6 flex items-center justify-between border-t border-gray-50 pt-5">
+                  <span className="text-sm font-semibold text-gray-800">{cat.courseIds.length > 0 ? "Explore Courses" : "Coming Soon"}</span>
+                  <span className="arrow-icon flex h-9 w-9 items-center justify-center rounded-2xl" style={{ background: `linear-gradient(135deg, ${cat.color}22, ${cat.color}10)` }}>
+                    <svg className="h-4 w-4" style={{ color: cat.color }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <div className="bottom-line absolute bottom-0 left-0 h-[3px] rounded-full" style={{ background: `linear-gradient(90deg, ${cat.color}, transparent)` }} />
             </Link>
-          </div>
-          {/* Decorative Background Icon */}
-          <GraduationCap className="absolute -bottom-10 -right-10 text-white/5" size={300} />
+          ))}
         </div>
       </section>
-    </div>
+
+      {/* ── CTA ────────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 p-12 text-center text-white shadow-2xl shadow-indigo-200">
+          <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
+          <p className="relative mb-2 text-sm font-bold uppercase tracking-widest text-indigo-200">Start Today</p>
+          <h2 className="relative mb-4 text-4xl font-black leading-tight" style={{ fontFamily: "'Fraunces', serif" }}>Not Sure Which Course to Pick?</h2>
+          <p className="relative mx-auto mb-8 max-w-md text-base text-indigo-100">Explore all Engineering courses and find the one that matches your interest, skills & salary goals.</p>
+          <Link href="/courses/engineering" className="relative inline-flex items-center gap-2 rounded-2xl bg-white px-8 py-4 text-sm font-bold text-indigo-700 shadow-lg transition-all hover:shadow-xl">
+            View All Engineering Courses
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Footer ─────────────────────────────────────────────── */}
+      {/* <footer className="border-t border-gray-100 bg-white py-10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 md:flex-row">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-black text-white">V</div>
+            <span className="text-base font-black text-gray-900" style={{ fontFamily: "'Fraunces', serif" }}>Vision Leads</span>
+          </div>
+          <p className="text-sm text-gray-400">Engineering Career Guidance · All rights reserved</p>
+          <div className="flex gap-5">
+            {categories.map((c) => (
+              <Link key={c.id} href={`/courses/${c.slug}`} className="text-sm text-gray-400 hover:text-gray-700">{c.shortTitle}</Link>
+            ))}
+          </div>
+        </div>
+      </footer> */}
+    </main>
   );
 }

@@ -178,7 +178,7 @@ export default function StudentRegistrationForm() {
     <button
       type="submit"
       disabled={loading}
-      className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-green-300 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50"
+      className="w-full bg-linear-to-r from-green-500 to-green-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-green-300 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50"
     >
       {loading ? "Processing..." : "Complete Registration"}
     </button>
